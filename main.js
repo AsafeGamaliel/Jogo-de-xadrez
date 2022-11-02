@@ -1,3 +1,12 @@
+document.body.onload = (e) => {
+    const width = document.body.clientWidth;
+    const height = document.body.clientHeight;
+    const menorLado = Math.min(width, height);
+
+    const tamanhoDoTabuleiro = menorLado - 50;
+    document.documentElement.style.setProperty("--tamanho-do-tabuleiro", tamanhoDoTabuleiro);
+}
+
 function criarTabuleiro() {
     const tabuleiro = document.querySelector(".tabuleiro");
 
