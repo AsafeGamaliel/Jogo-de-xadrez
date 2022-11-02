@@ -14,6 +14,10 @@ function criarCasaDoTabuleiro(coordenadas) {
     const casaDoTabuleiro = document.createElement("div");
     casaDoTabuleiro.classList.add("casa-do-tabuleiro");
 
+    const {row, column} = coordenadas;
+    if ((row + column) % 2 == 0) casaDoTabuleiro.classList.add("primeira-cor-padrao");
+    else casaDoTabuleiro.classList.add("segunda-cor-padrao");
+
     return casaDoTabuleiro;
 } 
 
