@@ -16,6 +16,11 @@ const codigoNomeDasPecas = {
     p: "Peão"
 };
 
+const codigoCorDasPecas = {
+    p: "primeira-cor",
+    s: "segunda-cor"
+};
+
 function criarTabuleiro() {
     const tabuleiro = document.querySelector(".tabuleiro");
 
