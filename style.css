@@ -17,3 +17,11 @@ body {
     gap: 1px;
     padding: 1px;
 }
+
+.primeira-cor-padrao {
+    background-color: black;
+}
+
+.segunda-cor-padrao {
+    background-color: white;
+}
