@@ -7,6 +7,15 @@ document.body.onload = (e) => {
     document.documentElement.style.setProperty("--tamanho-do-tabuleiro", tamanhoDoTabuleiro);
 }
 
+const codigoNomeDasPecas = {
+    re: "Rei",
+    ra: "Rainha",
+    b: "Bispo",
+    c: "Cavalo",
+    t: "Torre",
+    p: "Peão"
+};
+
 function criarTabuleiro() {
     const tabuleiro = document.querySelector(".tabuleiro");
 
