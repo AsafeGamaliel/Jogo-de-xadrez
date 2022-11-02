@@ -21,6 +21,15 @@ const codigoCorDasPecas = {
     s: "segunda-cor"
 };
 
+const codigoNumeroDasPecas = {
+    re: {p: 0, s: 0},
+    ra: {p: 0, s: 0},
+    b: {p: 0, s: 0},
+    c: {p: 0, s: 0},
+    t: {p: 0, s: 0},
+    p: {p: 0, s: 0}
+};
+
 function criarTabuleiro() {
     const tabuleiro = document.querySelector(".tabuleiro");
 
