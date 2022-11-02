@@ -7,7 +7,7 @@ body {
     align-items: center;
 }
 
-.jogo-de-xadrez {
+.tabuleiro {
     width: 500px;
     height: 500px;
     background-color: black;
