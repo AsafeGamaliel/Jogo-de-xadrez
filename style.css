@@ -10,5 +10,10 @@ body {
 .jogo-de-xadrez {
     width: 500px;
     height: 500px;
-    border: 1px solid black;
+    background-color: black;
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    grid-template-rows: repeat(8, 1fr);
+    gap: 1px;
+    padding: 1px;
 }
