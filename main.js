@@ -63,7 +63,7 @@ const informacoesDasCasas = Array(8).fill("").map((v, i1) => {
 });
 
 const informacoesDoJogo = {
-    corDaVez: "primeira",
+    isVezDaPrimeiraCor: true,
     coordenadasDaPecaAtiva: {rowAtiva: null, columnAtiva: null},
 };
 
@@ -73,47 +73,52 @@ function criarTabuleiro() {
     for (let row = 0; row < 8; row++) {
         for (let column = 0; column < 8; column++) {
             const coordenadas = {row, column};
-            const casaDoTabuleiro = criarCasaDoTabuleiro(coordenadas);
+            const casa = criarCasa(coordenadas);
 
-            tabuleiro.appendChild(casaDoTabuleiro);
+            tabuleiro.appendChild(casa);
         }
     }
 
-    criarPecasNoTabuleiro();
+    criarTodasPecas();
 }
 
-function criarCasaDoTabuleiro(coordenadas) {
+function criarCasa(coordenadas) {
+    const {row, column} = coordenadas;
+
     const casa = document.createElement("div");
     casa.classList.add("casa");
-
-    const {row, column} = coordenadas;
-    if ((row + column) % 2 == 0) casa.classList.add("bg-primeira");
-    else casa.classList.add("bg-segunda");
+    casa.classList.add((row + column) % 2 == 0 ? "bg-primeira" : "bg-segunda");
 
     casa.id = `casa-${row}-${column}`;
-
-    //! usarei letras inicialmente, mas pretendo excluir esse bloco futuramente.
-    const text = document.createElement("p");
-    text.classList.add("text");
-    casa.appendChild(text);
 
     casa.addEventListener("click", () => decidirAcaoDaCasa(casa));
 
     return casa;
 } 
 
-function criarPecasNoTabuleiro() {
+function criarTodasPecas() {
     for (let row = 0; row < 8; row++) {
         for (let column = 0; column < 8; column++) {
-            const informacoesDaCasa = informacoesDasCasas[row][column];
-            const {nomeDaPeca, corDaPeca} = informacoesDaCasa;
+            const coordenadas = {row, column};
+            const casa = document.querySelector(`#casa-${row}-${column}`);
+            const peca = criarPeca(coordenadas);
 
-            const text = document.querySelector(`#casa-${row}-${column} .text`);
-            text.textContent = nomeDaPeca;
-            text.className = "text";
-            text.classList.add(`color-${corDaPeca}`);
+            casa.appendChild(peca);
         }
     }
+}
+
+function criarPeca(coordenadas) {
+    const {row, column} = coordenadas;
+    const informacoesDaCasa = informacoesDasCasas[row][column];
+    const {nomeDaPeca, corDaPeca} = informacoesDaCasa;
+
+    //! pretendo mudar isso para imagens em SVG
+    const peca = document.createElement("p");
+    peca.classList.add("text", `color-${corDaPeca}`);
+    peca.textContent = nomeDaPeca;
+
+    return peca;
 }
 
 function decidirAcaoDaCasa(casa) {
