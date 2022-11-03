@@ -83,7 +83,7 @@ function criarCasaDoTabuleiro(coordenadas) {
     if ((row + column) % 2 == 0) casaDoTabuleiro.classList.add("primeira-cor-padrao");
     else casaDoTabuleiro.classList.add("segunda-cor-padrao");
 
-    casaDoTabuleiro.id = `casa-${column}-${row}`;
+    casaDoTabuleiro.id = `casa-${row}-${column}`;
 
     //! usarei letras inicialmente, mas pretendo excluir esse bloco futuramente.
     const text = document.createElement("p");
