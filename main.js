@@ -63,7 +63,7 @@ const informacoesDasCasas = Array(8).fill("").map((v, i1) => {
 });
 
 const informacoesDoJogo = {
-    isVezDaPrimeiraCor: true,
+    corDaVez: "primeira",
     coordenadasDaPecaAtiva: {rowAtiva: null, columnAtiva: null},
 };
 
