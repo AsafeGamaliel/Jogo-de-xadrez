@@ -34,12 +34,34 @@ const codigoNoTabuleiro = [
     ["", "", "", "","", "", "", ""],
     ["", "", "", "","", "", "", ""],
     ["", "", "", "","", "", "", ""],
-    ["", "", "", "r-p-1","", "", "", ""],
+    ["", "", "", "re-p","", "", "", ""],
     ["", "", "", "","", "", "", ""],
     ["", "", "", "","", "", "", ""],
     ["", "", "", "","", "", "", ""],
     ["", "", "", "","", "", "", ""]
 ];
+
+const representacaoDoTabuleiro = Array(8).fill("").map((v, i1) => {
+    return Array(8).fill("").map((v, i2) => {
+        const infomacaoDaCasa = {
+            nome: null, 
+            cor: null, 
+            numero: null, 
+            coordenadas: {row: i1, column: i2}
+        }; 
+
+        const codigosDaPeca = codigoNoTabuleiro[i1][i2];
+        if (codigosDaPeca.length) {
+            const [nome, cor] = codigosDaPeca.split("-");
+
+            infomacaoDaCasa.nome = codigoNomeDasPecas[nome];
+            infomacaoDaCasa.cor = codigoCorDasPecas[cor];
+            infomacaoDaCasa.numero = ++codigoNumeroDasPecas[nome][cor];
+        }
+
+        return infomacaoDaCasa;
+    });
+});
 
 function criarTabuleiro() {
     const tabuleiro = document.querySelector(".tabuleiro");
