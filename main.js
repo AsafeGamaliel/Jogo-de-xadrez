@@ -83,6 +83,8 @@ function criarCasaDoTabuleiro(coordenadas) {
     if ((row + column) % 2 == 0) casaDoTabuleiro.classList.add("primeira-cor-padrao");
     else casaDoTabuleiro.classList.add("segunda-cor-padrao");
 
+    casaDoTabuleiro.id = `casa-${column}-${row}`;
+
     return casaDoTabuleiro;
 } 
 
