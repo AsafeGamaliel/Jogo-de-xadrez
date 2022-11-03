@@ -30,6 +30,17 @@ const codigoNumeroDasPecas = {
     p: {p: 0, s: 0}
 };
 
+const codigoNoTabuleiro = [
+    ["", "", "", "","", "", "", ""],
+    ["", "", "", "","", "", "", ""],
+    ["", "", "", "","", "", "", ""],
+    ["", "", "", "r-p-1","", "", "", ""],
+    ["", "", "", "","", "", "", ""],
+    ["", "", "", "","", "", "", ""],
+    ["", "", "", "","", "", "", ""],
+    ["", "", "", "","", "", "", ""]
+];
+
 function criarTabuleiro() {
     const tabuleiro = document.querySelector(".tabuleiro");
 
