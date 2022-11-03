@@ -82,8 +82,8 @@ function criarCasaDoTabuleiro(coordenadas) {
     casaDoTabuleiro.classList.add("casa-do-tabuleiro");
 
     const {row, column} = coordenadas;
-    if ((row + column) % 2 == 0) casaDoTabuleiro.classList.add("primeira-cor-padrao");
-    else casaDoTabuleiro.classList.add("segunda-cor-padrao");
+    if ((row + column) % 2 == 0) casaDoTabuleiro.classList.add("bg-primeira-cor");
+    else casaDoTabuleiro.classList.add("bg-segunda-cor");
 
     casaDoTabuleiro.id = `casa-${row}-${column}`;
 

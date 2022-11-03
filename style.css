@@ -22,11 +22,11 @@ body {
     padding: 1px;
 }
 
-.primeira-cor-padrao {
+.bg-primeira-cor {
     background-color: black;
 }
 
-.segunda-cor-padrao {
+.bg-segunda-cor {
     background-color: white;
 }
 
