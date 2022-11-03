@@ -115,7 +115,31 @@ function criarPecasNoTabuleiro() {
 }
 
 function decidirEvento(casaDoTabuleiro) {
-    casaDoTabuleiro.classList.add("casa-ativa");
+    const {row, column} = informacoesDoJogo.coordenadasDaPecaAtiva;
+    const [, rowDaCasa, columnDaCasa] = casaDoTabuleiro.id.split("-");
+
+    if ((row === rowDaCasa) && (column === columnDaCasa)) {
+        limparInformacoesDoJogo();
+    } else {
+        limparInformacoesDoJogo();
+        casaDoTabuleiro.classList.add("casa-ativa");
+        informacoesDoJogo.coordenadasDaPecaAtiva = {
+            row: rowDaCasa,
+            column: columnDaCasa
+        };
+    }
+}
+
+function limparInformacoesDoJogo() {
+    informacoesDoJogo.coordenadasDaPecaAtiva = {
+        row: null,
+        column: null
+    };
+
+    const casasDoTabuleiro = document.querySelectorAll(".casa-do-tabuleiro");
+    casasDoTabuleiro.forEach(casaDoTabuleiro => {
+        casaDoTabuleiro.classList.remove("casa-ativa");
+    });
 }
 
 criarTabuleiro();
