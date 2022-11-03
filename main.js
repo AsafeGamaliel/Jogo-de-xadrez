@@ -118,16 +118,23 @@ function criarPecasNoTabuleiro() {
 function decidirEvento(casaDoTabuleiro) {
     const {row, column} = informacoesDoJogo.coordenadasDaPecaAtiva;
     const [, rowDaCasa, columnDaCasa] = casaDoTabuleiro.id.split("-");
+    const corDaCasa = representacaoDoTabuleiro[rowDaCasa][columnDaCasa].cor;
 
-    if ((row === rowDaCasa) && (column === columnDaCasa)) {
-        limparInformacoesDoJogo();
+    if (informacoesDoJogo.corDaVez === corDaCasa) {
+        if ((row === rowDaCasa) && (column === columnDaCasa)) {
+            limparInformacoesDoJogo();
+        } else {
+            limparInformacoesDoJogo();
+            casaDoTabuleiro.classList.add("casa-ativa");
+            informacoesDoJogo.coordenadasDaPecaAtiva = {
+                row: rowDaCasa,
+                column: columnDaCasa
+            };
+
+            // informacoesDoJogo.corDaVez = corDaCasa === "primeira-cor" ? "segunda-cor" : "primeira-cor";
+        }
     } else {
         limparInformacoesDoJogo();
-        casaDoTabuleiro.classList.add("casa-ativa");
-        informacoesDoJogo.coordenadasDaPecaAtiva = {
-            row: rowDaCasa,
-            column: columnDaCasa
-        };
     }
 }
 
