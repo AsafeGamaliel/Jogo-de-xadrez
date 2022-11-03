@@ -32,12 +32,12 @@ const codigoNumeroDasPecas = {
 
 const codigoNoTabuleiro = [
     ["", "", "", "","", "", "", ""],
+    ["", "", "", "p-p","", "", "", ""],
     ["", "", "", "","", "", "", ""],
     ["", "", "", "","", "", "", ""],
-    ["", "", "", "re-p","", "", "", ""],
     ["", "", "", "","", "", "", ""],
     ["", "", "", "","", "", "", ""],
-    ["", "", "", "","", "", "", ""],
+    ["", "", "", "","", "p-s", "", ""],
     ["", "", "", "","", "", "", ""]
 ];
 
@@ -106,7 +106,7 @@ function criarCasaDoTabuleiro(coordenadas) {
 function criarPecasNoTabuleiro() {
     for (let row = 0; row < 8; row++) {
         for (let column = 0; column < 8; column++) {
-            const text = document.querySelector(`#casa-${column}-${row} .text`);
+            const text = document.querySelector(`#casa-${row}-${column} .text`);
             text.textContent = representacaoDoTabuleiro[row][column].nome;
             text.className = "text";
             text.classList.add(`color-${representacaoDoTabuleiro[row][column].cor}`);
