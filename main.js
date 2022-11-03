@@ -85,6 +85,11 @@ function criarCasaDoTabuleiro(coordenadas) {
 
     casaDoTabuleiro.id = `casa-${column}-${row}`;
 
+    //! usarei letras inicialmente, mas pretendo excluir esse bloco futuramente.
+    const text = document.createElement("p");
+    text.classList.add("text");
+    casaDoTabuleiro.appendChild(text);
+
     return casaDoTabuleiro;
 } 
 
