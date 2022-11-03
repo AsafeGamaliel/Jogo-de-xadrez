@@ -168,6 +168,11 @@ function procurarOsMovimentosDaPeca() {
     }
 }
 
+function criarMovimentosDoPeao() {
+    //! lembre de criar mais uma categoria dentro das peças, para salvar os movimentos que elas podem fazer.
+    //! crie tambem os movimentos que elas não podem, que o rei vai colocar depois.
+}
+
 function limparInformacoesDoJogo() {
     informacoesDoJogo.coordenadasDaPecaAtiva = {row: null, column: null};
 
