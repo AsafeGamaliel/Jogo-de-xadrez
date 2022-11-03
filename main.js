@@ -63,6 +63,10 @@ const representacaoDoTabuleiro = Array(8).fill("").map((v, i1) => {
     });
 });
 
+const informacoesDoJogo = {
+    coordenadasDaPecaAtiva: {row: null, column: null},
+};
+
 function criarTabuleiro() {
     const tabuleiro = document.querySelector(".tabuleiro");
 
