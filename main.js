@@ -1,27 +1,29 @@
-document.body.onload = (e) => {
-    const width = document.body.clientWidth;
-    const height = document.body.clientHeight;
-    const menorLado = Math.min(width, height);
+document.body.onload = () => {
+    const larguraDaTela = document.body.clientWidth;
+    const alturaDaTela = document.body.clientHeight;
+    const menorLadoDaTela = Math.min(larguraDaTela, alturaDaTela);
+    const tamanhoDoLadoDoTabuleiro = menorLadoDaTela - 50;
 
-    const tamanhoDoTabuleiro = menorLado - 50;
-    document.documentElement.style.setProperty("--tamanho-do-tabuleiro", tamanhoDoTabuleiro);
+    const tabuleiro = document.querySelector(".tabuleiro");
+    tabuleiro.style.width = tamanhoDoLadoDoTabuleiro + "px";
+    tabuleiro.style.height = tamanhoDoLadoDoTabuleiro + "px";
 }
 
-const codigoNomeDasPecas = {
-    re: "Rei",
-    ra: "Rainha",
-    b: "Bispo",
-    c: "Cavalo",
-    t: "Torre",
-    p: "Peão"
+const codigosDosNomesDasPecas = {
+    re: "rei",
+    ra: "rainha",
+    b: "bispo",
+    c: "cavalo",
+    t: "torre",
+    p: "peão"
 };
 
-const codigoCorDasPecas = {
-    p: "primeira-cor",
-    s: "segunda-cor"
+const codigosDasCoresDasPecas = {
+    p: "primeira",
+    s: "segunda"
 };
 
-const codigoNumeroDasPecas = {
+const codigosDosNumerosDasPecas = {
     re: {p: 0, s: 0},
     ra: {p: 0, s: 0},
     b: {p: 0, s: 0},
@@ -30,7 +32,7 @@ const codigoNumeroDasPecas = {
     p: {p: 0, s: 0}
 };
 
-const codigoNoTabuleiro = [
+const codigosNoTabuleiro = [
     ["", "", "", "","", "", "", ""],
     ["", "", "", "p-p","", "", "", ""],
     ["", "", "", "","", "", "", ""],
@@ -41,31 +43,32 @@ const codigoNoTabuleiro = [
     ["", "", "", "","", "", "", ""]
 ];
 
-const representacaoDoTabuleiro = Array(8).fill("").map((v, i1) => {
+const informacoesDasCasas = Array(8).fill("").map((v, i1) => {
     return Array(8).fill("").map((v, i2) => {
-        const infomacaoDaCasa = {
-            nome: null, 
-            cor: null, 
-            numero: null, 
-            coordenadas: {row: i1, column: i2}
+        const informacoesDaCasa = {
+            nomeDaPeca: null, 
+            corDaPeca: null, 
+            numeroDaPeca: null, 
+            coordenadasDaCasa: {row: i1, column: i2}
         }; 
 
-        const codigosDaPeca = codigoNoTabuleiro[i1][i2];
-        if (codigosDaPeca.length) {
-            const [nome, cor] = codigosDaPeca.split("-");
+        const codigosDaPeca = codigosNoTabuleiro[i1][i2];
+        const isPecaExiste = codigosDaPeca.length;
+        if (isPecaExiste) {
+            const [codigoDoNome, codigoDaCor] = codigosDaPeca.split("-");
 
-            infomacaoDaCasa.nome = codigoNomeDasPecas[nome];
-            infomacaoDaCasa.cor = codigoCorDasPecas[cor];
-            infomacaoDaCasa.numero = ++codigoNumeroDasPecas[nome][cor];
+            informacoesDaCasa.nomeDaPeca = codigosDosNomesDasPecas[codigoDoNome];
+            informacoesDaCasa.corDaPeca = codigosDasCoresDasPecas[codigoDaCor];
+            informacoesDaCasa.numeroDaPeca = ++codigosDosNumerosDasPecas[codigoDoNome][codigoDaCor];
         }
 
-        return infomacaoDaCasa;
+        return informacoesDaCasa;
     });
 });
 
 const informacoesDoJogo = {
-    corDaVez: "primeira-cor",
-    coordenadasDaPecaAtiva: {row: null, column: null},
+    corDaVez: "primeira",
+    coordenadasDaPecaAtiva: {rowAtiva: null, columnAtiva: null},
 };
 
 function criarTabuleiro() {
@@ -73,7 +76,8 @@ function criarTabuleiro() {
 
     for (let row = 0; row < 8; row++) {
         for (let column = 0; column < 8; column++) {
-            const casaDoTabuleiro = criarCasaDoTabuleiro({row, column});
+            const coordenadas = {row, column};
+            const casaDoTabuleiro = criarCasaDoTabuleiro(coordenadas);
 
             tabuleiro.appendChild(casaDoTabuleiro);
         }
@@ -83,57 +87,64 @@ function criarTabuleiro() {
 }
 
 function criarCasaDoTabuleiro(coordenadas) {
-    const casaDoTabuleiro = document.createElement("div");
-    casaDoTabuleiro.classList.add("casa-do-tabuleiro");
+    const casa = document.createElement("div");
+    casa.classList.add("casa");
 
     const {row, column} = coordenadas;
-    if ((row + column) % 2 == 0) casaDoTabuleiro.classList.add("bg-primeira-cor");
-    else casaDoTabuleiro.classList.add("bg-segunda-cor");
+    if ((row + column) % 2 == 0) casa.classList.add("bg-primeira");
+    else casa.classList.add("bg-segunda");
 
-    casaDoTabuleiro.id = `casa-${row}-${column}`;
+    casa.id = `casa-${row}-${column}`;
 
     //! usarei letras inicialmente, mas pretendo excluir esse bloco futuramente.
     const text = document.createElement("p");
     text.classList.add("text");
-    casaDoTabuleiro.appendChild(text);
+    casa.appendChild(text);
 
-    casaDoTabuleiro.addEventListener("click", () => {
-        decidirEvento(casaDoTabuleiro);
-    });
+    casa.addEventListener("click", () => decidirAcaoDaCasa(casa));
 
-    return casaDoTabuleiro;
+    return casa;
 } 
 
 function criarPecasNoTabuleiro() {
     for (let row = 0; row < 8; row++) {
         for (let column = 0; column < 8; column++) {
+            const informacoesDaCasa = informacoesDasCasas[row][column];
+            const {nomeDaPeca, corDaPeca} = informacoesDaCasa;
+
             const text = document.querySelector(`#casa-${row}-${column} .text`);
-            text.textContent = representacaoDoTabuleiro[row][column].nome;
+            text.textContent = nomeDaPeca;
             text.className = "text";
-            text.classList.add(`color-${representacaoDoTabuleiro[row][column].cor}`);
+            text.classList.add(`color-${corDaPeca}`);
         }
     }
 }
 
-function decidirEvento(casaDoTabuleiro) {
-    const {row, column} = informacoesDoJogo.coordenadasDaPecaAtiva;
-    const [, rowDaCasa, columnDaCasa] = casaDoTabuleiro.id.split("-");
+function decidirAcaoDaCasa(casa) {
+    const [, rowDaCasa, columnDaCasa] = casa.id.split("-");
+    const informacoesDaCasa =  informacoesDasCasas[rowDaCasa][columnDaCasa];
 
-    const informacaoDaCasa =  representacaoDoTabuleiro[rowDaCasa][columnDaCasa];
-    const corDaCasa = informacaoDaCasa.cor;
+    const corDaCasa = informacoesDaCasa.corDaPeca;
+    const corDaVez = informacoesDoJogo.corDaVez;
 
-    if (informacoesDoJogo.corDaVez === corDaCasa) {
-        if ((row === rowDaCasa) && (column === columnDaCasa)) {
+    //! veja primeiro se na casa clicada existe ou não uma peça (se uma peça ja estava ativa)
+    //! depois se a cor é da vez
+    //! depois se as cores sao iguais
+    const isACorDavez = corDaVez === corDaCasa;
+    if (isACorDavez) {
+        const {rowAtiva, columnAtiva} = informacoesDoJogo.coordenadasDaPecaAtiva;
+        if ((rowAtiva === rowDaCasa) && (columnAtiva === columnDaCasa)) limparInformacoesDoJogo();
+        else {
             limparInformacoesDoJogo();
-        } else {
-            limparInformacoesDoJogo();
-            casaDoTabuleiro.classList.add("casa-ativa");
+
+            casa.classList.add("casa-ativa");
             informacoesDoJogo.coordenadasDaPecaAtiva = {
-                row: rowDaCasa,
-                column: columnDaCasa
+                rowAtiva: rowDaCasa,
+                columnAtiva: columnDaCasa
             };
 
-            decidirOsMovimentosDessaPeca(informacaoDaCasa);
+            //! escolha um nome melhor kk eu acho kk
+            decidirOsMovimentosDaPeca(informacoesDaCasa);
 
             // informacoesDoJogo.corDaVez = corDaCasa === "primeira-cor" ? "segunda-cor" : "primeira-cor";
         }
@@ -142,11 +153,15 @@ function decidirEvento(casaDoTabuleiro) {
     }
 }
 
-function decidirOsMovimentosDessaPeca(informacaoDaCasa) {
-    const {nome} = informacaoDaCasa;
+//! criar funções para para cada if e else nas funçoes, só aceitando 1 nivel de if else por funcao.
 
-    switch (nome) {
-        case "Peão":
+function decidirOsMovimentosDaPeca(informacoesDaCasa) {
+    const {nomeDaPeca} = informacoesDaCasa;
+
+    //! pense em criar um array chamado informacoes das pecas, que só conste informaçoes sobre cada peça e mais nada.
+    //! essas informacoes em uni dimensional, otimizaram o uso de fors, apesar que sei la, qual deve ser o mais didaytico
+    switch (nomeDaPeca) {
+        case "peão":
             //? aqui encaminha para uma funcao que mostra os possíveis caminhos do peao
             break;
     }
@@ -154,13 +169,13 @@ function decidirOsMovimentosDessaPeca(informacaoDaCasa) {
 
 function limparInformacoesDoJogo() {
     informacoesDoJogo.coordenadasDaPecaAtiva = {
-        row: null,
-        column: null
+        rowAtiva: null,
+        columnAtiva: null
     };
 
-    const casasDoTabuleiro = document.querySelectorAll(".casa-do-tabuleiro");
-    casasDoTabuleiro.forEach(casaDoTabuleiro => {
-        casaDoTabuleiro.classList.remove("casa-ativa");
+    const casasDoTabuleiro = document.querySelectorAll(".casa");
+    casasDoTabuleiro.forEach(casa => {
+        casa.classList.remove("casa-ativa");
     });
 }
 
