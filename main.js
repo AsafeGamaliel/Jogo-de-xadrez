@@ -100,6 +100,8 @@ function criarPecasNoTabuleiro() {
         for (let column = 0; column < 8; column++) {
             const text = document.querySelector(`#casa-${column}-${row} .text`);
             text.textContent = representacaoDoTabuleiro[row][column].nome;
+            text.className = "text";
+            text.classList.add(`color-${representacaoDoTabuleiro[row][column].cor}`);
         }
     }
 }
