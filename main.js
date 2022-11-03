@@ -73,6 +73,8 @@ function criarTabuleiro() {
             tabuleiro.appendChild(casaDoTabuleiro);
         }
     }
+
+    criarPecasNoTabuleiro();
 }
 
 function criarCasaDoTabuleiro(coordenadas) {
@@ -92,5 +94,14 @@ function criarCasaDoTabuleiro(coordenadas) {
 
     return casaDoTabuleiro;
 } 
+
+function criarPecasNoTabuleiro() {
+    for (let row = 0; row < 8; row++) {
+        for (let column = 0; column < 8; column++) {
+            const text = document.querySelector(`#casa-${column}-${row} .text`);
+            text.textContent = representacaoDoTabuleiro[row][column].nome;
+        }
+    }
+}
 
 criarTabuleiro();
