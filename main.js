@@ -64,6 +64,7 @@ const representacaoDoTabuleiro = Array(8).fill("").map((v, i1) => {
 });
 
 const informacoesDoJogo = {
+    corDaVez: "primeira-cor",
     coordenadasDaPecaAtiva: {row: null, column: null},
 };
 
