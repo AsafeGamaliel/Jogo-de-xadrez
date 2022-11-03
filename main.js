@@ -118,7 +118,9 @@ function criarPecasNoTabuleiro() {
 function decidirEvento(casaDoTabuleiro) {
     const {row, column} = informacoesDoJogo.coordenadasDaPecaAtiva;
     const [, rowDaCasa, columnDaCasa] = casaDoTabuleiro.id.split("-");
-    const corDaCasa = representacaoDoTabuleiro[rowDaCasa][columnDaCasa].cor;
+
+    const informacaoDaCasa =  representacaoDoTabuleiro[rowDaCasa][columnDaCasa];
+    const corDaCasa = informacaoDaCasa.cor;
 
     if (informacoesDoJogo.corDaVez === corDaCasa) {
         if ((row === rowDaCasa) && (column === columnDaCasa)) {
@@ -131,10 +133,22 @@ function decidirEvento(casaDoTabuleiro) {
                 column: columnDaCasa
             };
 
+            decidirOsMovimentosDessaPeca(informacaoDaCasa);
+
             // informacoesDoJogo.corDaVez = corDaCasa === "primeira-cor" ? "segunda-cor" : "primeira-cor";
         }
     } else {
         limparInformacoesDoJogo();
+    }
+}
+
+function decidirOsMovimentosDessaPeca(informacaoDaCasa) {
+    const {nome} = informacaoDaCasa;
+
+    switch (nome) {
+        case "Peão":
+            //? aqui encaminha para uma funcao que mostra os possíveis caminhos do peao
+            break;
     }
 }
 
