@@ -92,6 +92,10 @@ function criarCasaDoTabuleiro(coordenadas) {
     text.classList.add("text");
     casaDoTabuleiro.appendChild(text);
 
+    casaDoTabuleiro.addEventListener("click", () => {
+        decidirEvento(casaDoTabuleiro);
+    });
+
     return casaDoTabuleiro;
 } 
 
@@ -104,6 +108,10 @@ function criarPecasNoTabuleiro() {
             text.classList.add(`color-${representacaoDoTabuleiro[row][column].cor}`);
         }
     }
+}
+
+function decidirEvento(casaDoTabuleiro) {
+    casaDoTabuleiro.classList.add("casa-ativa");
 }
 
 criarTabuleiro();
