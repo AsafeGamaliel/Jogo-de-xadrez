@@ -48,3 +48,7 @@ body {
 .color-segunda-cor {
     color: blue;
 }
+
+.casa-ativa {
+    background: radial-gradient(rgb(129, 212, 129), rgb(15, 164, 15));
+}
