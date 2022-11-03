@@ -15,12 +15,14 @@ const codigosDosNomesDasPecas = {
     b: "bispo",
     c: "cavalo",
     t: "torre",
-    p: "peão"
+    p: "peão",
+    n: null
 };
 
 const codigosDasCoresDasPecas = {
     p: "primeira",
-    s: "segunda"
+    s: "segunda",
+    n: null
 };
 
 const codigosDosNumerosDasPecas = {
@@ -29,7 +31,8 @@ const codigosDosNumerosDasPecas = {
     b: {p: 0, s: 0},
     c: {p: 0, s: 0},
     t: {p: 0, s: 0},
-    p: {p: 0, s: 0}
+    p: {p: 0, s: 0},
+    n: {n: 0}
 };
 
 const codigosNoTabuleiro = [
@@ -41,26 +44,19 @@ const codigosNoTabuleiro = [
     ["", "", "", "","", "", "", ""],
     ["", "", "", "","", "p-s", "", ""],
     ["", "", "", "","", "", "", ""]
-];
+].map(v1 => v1.map(v2 => v2.length ? v2 : "n-n"));
 
 const informacoesDasCasas = Array(8).fill("").map((v, i1) => {
     return Array(8).fill("").map((v, i2) => {
+        const codigosDaPeca = codigosNoTabuleiro[i1][i2];
+        const [codigoDoNome, codigoDaCor] = codigosDaPeca.split("-");
+
         const informacoesDaCasa = {
-            nomeDaPeca: null, 
-            corDaPeca: null, 
-            numeroDaPeca: null, 
+            nomeDaPeca: codigosDosNomesDasPecas[codigoDoNome], 
+            corDaPeca: codigosDasCoresDasPecas[codigoDaCor], 
+            numeroDaPeca: ++codigosDosNumerosDasPecas[codigoDoNome][codigoDaCor], 
             coordenadasDaCasa: {row: i1, column: i2}
         }; 
-
-        const codigosDaPeca = codigosNoTabuleiro[i1][i2];
-        const isPecaExiste = codigosDaPeca.length;
-        if (isPecaExiste) {
-            const [codigoDoNome, codigoDaCor] = codigosDaPeca.split("-");
-
-            informacoesDaCasa.nomeDaPeca = codigosDosNomesDasPecas[codigoDoNome];
-            informacoesDaCasa.corDaPeca = codigosDasCoresDasPecas[codigoDaCor];
-            informacoesDaCasa.numeroDaPeca = ++codigosDosNumerosDasPecas[codigoDoNome][codigoDaCor];
-        }
 
         return informacoesDaCasa;
     });
