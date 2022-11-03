@@ -64,7 +64,7 @@ const informacoesDasCasas = Array(8).fill("").map((v, i1) => {
 
 const informacoesDoJogo = {
     corDaVez: "primeira",
-    coordenadasDaPecaAtiva: {rowAtiva: null, columnAtiva: null},
+    coordenadasDaPecaAtiva: {row: null, column: null},
 };
 
 function criarTabuleiro() {
@@ -120,45 +120,46 @@ function criarPeca(coordenadas) {
 }
 
 function decidirAcaoDaCasa(casa) {
-    const [, rowDaCasa, columnDaCasa] = casa.id.split("-");
-    const informacoesDaCasa =  informacoesDasCasas[rowDaCasa][columnDaCasa];
+    const [, row, column] = casa.id.split("-");
+    const coordenadas = {row, column};
 
-    const corDaCasa = informacoesDaCasa.corDaPeca;
-    const corDaVez = informacoesDoJogo.corDaVez;
-
-    //! veja primeiro se na casa clicada existe ou não uma peça (se uma peça ja estava ativa)
-    //! depois se a cor é da vez
-    //! depois se as cores sao iguais
-    const isACorDavez = corDaVez === corDaCasa;
+    const isACorDavez = retornarSeIsACorDaVez(coordenadas);
     if (isACorDavez) {
-        const {rowAtiva, columnAtiva} = informacoesDoJogo.coordenadasDaPecaAtiva;
-        if ((rowAtiva === rowDaCasa) && (columnAtiva === columnDaCasa)) limparInformacoesDoJogo();
-        else {
-            limparInformacoesDoJogo();
-
-            casa.classList.add("casa-ativa");
-            informacoesDoJogo.coordenadasDaPecaAtiva = {
-                rowAtiva: rowDaCasa,
-                columnAtiva: columnDaCasa
-            };
-
-            //! escolha um nome melhor kk eu acho kk
-            decidirOsMovimentosDaPeca(informacoesDaCasa);
-
-            // informacoesDoJogo.corDaVez = corDaCasa === "primeira-cor" ? "segunda-cor" : "primeira-cor";
-        }
+        decidirSeAtivaAPeca(coordenadas);
     } else {
         limparInformacoesDoJogo();
     }
 }
 
-//! criar funções para para cada if e else nas funçoes, só aceitando 1 nivel de if else por funcao.
+function retornarSeIsACorDaVez(coordenadas) {
+    const {row, column} = coordenadas;
+    const informacoesDaCasa =  informacoesDasCasas[row][column];
+
+    const { corDaPeca } = informacoesDaCasa;
+    const { corDaVez } = informacoesDoJogo;
+
+    return (corDaVez === corDaPeca);
+}
+
+function decidirSeAtivaAPeca(coordenadas) {
+    const {row, column} = coordenadas;
+    const {row : rowAtiva, column : columnAtiva} = informacoesDoJogo.coordenadasDaPecaAtiva;
+
+    if ((rowAtiva === row) && (columnAtiva === column)) {
+        limparInformacoesDoJogo();
+    } else {
+        limparInformacoesDoJogo();
+
+        informacoesDoJogo.coordenadasDaPecaAtiva = { row, column };
+
+        const casa = document.querySelector(`#casa-${row}-${column}`);
+        casa.classList.add("casa-ativa");
+    }
+}
 
 function decidirOsMovimentosDaPeca(informacoesDaCasa) {
     const {nomeDaPeca} = informacoesDaCasa;
 
-    //! pense em criar um array chamado informacoes das pecas, que só conste informaçoes sobre cada peça e mais nada.
-    //! essas informacoes em uni dimensional, otimizaram o uso de fors, apesar que sei la, qual deve ser o mais didaytico
     switch (nomeDaPeca) {
         case "peão":
             //? aqui encaminha para uma funcao que mostra os possíveis caminhos do peao
@@ -167,13 +168,10 @@ function decidirOsMovimentosDaPeca(informacoesDaCasa) {
 }
 
 function limparInformacoesDoJogo() {
-    informacoesDoJogo.coordenadasDaPecaAtiva = {
-        rowAtiva: null,
-        columnAtiva: null
-    };
+    informacoesDoJogo.coordenadasDaPecaAtiva = {row: null, column: null};
 
-    const casasDoTabuleiro = document.querySelectorAll(".casa");
-    casasDoTabuleiro.forEach(casa => {
+    const casas = document.querySelectorAll(".casa");
+    casas.forEach(casa => {
         casa.classList.remove("casa-ativa");
     });
 }
