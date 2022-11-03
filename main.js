@@ -89,7 +89,7 @@ function criarCasa(coordenadas) {
 
     casa.classList.add("casa", (row + column) % 2 == 0 ? "bg-primeira" : "bg-segunda");
     casa.id = `casa-${row}-${column}`;
-    casa.addEventListener("click", () => decidirAcaoDaCasa(casa));
+    casa.addEventListener("click", () => decidirAcaoDaCasa(coordenadas));
 
     return casa;
 } 
@@ -119,10 +119,7 @@ function criarPeca(coordenadas) {
     return peca;
 }
 
-function decidirAcaoDaCasa(casa) {
-    const [, row, column] = casa.id.split("-");
-    const coordenadas = {row, column};
-
+function decidirAcaoDaCasa(coordenadas) {
     const isACorDavez = retornarSeIsACorDaVez(coordenadas);
     if (isACorDavez) {
         decidirSeAtivaAPeca(coordenadas);
@@ -154,14 +151,18 @@ function decidirSeAtivaAPeca(coordenadas) {
 
         const casa = document.querySelector(`#casa-${row}-${column}`);
         casa.classList.add("casa-ativa");
+
+        procurarOsMovimentosDaPeca();
     }
 }
 
-function decidirOsMovimentosDaPeca(informacoesDaCasa) {
-    const {nomeDaPeca} = informacoesDaCasa;
+function procurarOsMovimentosDaPeca() {
+    const {row, column} = informacoesDoJogo.coordenadasDaPecaAtiva;
+    const {nomeDaPeca} = informacoesDasCasas[row][column];
 
     switch (nomeDaPeca) {
         case "peão":
+            console.log("Apertou no peão");
             //? aqui encaminha para uma funcao que mostra os possíveis caminhos do peao
             break;
     }
