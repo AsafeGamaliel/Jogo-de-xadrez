@@ -86,11 +86,9 @@ function criarCasa(coordenadas) {
     const {row, column} = coordenadas;
 
     const casa = document.createElement("div");
-    casa.classList.add("casa");
-    casa.classList.add((row + column) % 2 == 0 ? "bg-primeira" : "bg-segunda");
 
+    casa.classList.add("casa", (row + column) % 2 == 0 ? "bg-primeira" : "bg-segunda");
     casa.id = `casa-${row}-${column}`;
-
     casa.addEventListener("click", () => decidirAcaoDaCasa(casa));
 
     return casa;
